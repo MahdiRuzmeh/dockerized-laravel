@@ -8,6 +8,9 @@ services:
         container_name: laravel_app
         restart: unless-stopped
         volumes:
+            # The line below mounts the project directory to the container's workDir.
+            # This allows live updates to the code inside the container without rebuilding the image.
+            # It's useful during development, as the Dockerfile only copies the code during the image build.
             - .:/var/www/html
         networks:
             - laravel
