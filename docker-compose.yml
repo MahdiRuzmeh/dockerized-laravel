@@ -7,13 +7,15 @@ services:
             dockerfile: Dockerfile
         container_name: laravel_app
         restart: unless-stopped
+        ports:
+            - "9000:9000"
         volumes:
             # The line below mounts the project directory to the container's workDir.
             # This allows live updates to the code inside the container without rebuilding the image.
             # It's useful during development, as the Dockerfile only copies the code during the image build.
             - .:/var/www/html
         networks:
-            - laravel
+            - app-network
 
     nginx:
         image: nginx:latest
@@ -22,10 +24,10 @@ services:
         ports:
             - "8080:80"
         volumes:
-            - .:/var/www/html
+            - ./moz:/var/www/html/public
             - ./docker/nginx:/etc/nginx/conf.d
         networks:
-            - laravel
+            - app-network
         depends_on:
             - app
 
@@ -41,11 +43,11 @@ services:
         volumes:
             - dbdata:/var/lib/mysql
         networks:
-            - laravel
+            - app-network
 
 volumes:
     dbdata:
 
 networks:
-    laravel:
+    app-network:
         driver: bridge
