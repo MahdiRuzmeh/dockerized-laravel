@@ -24,7 +24,7 @@ services:
         ports:
             - "8080:80"
         volumes:
-            - ./moz:/var/www/html/public
+#            - ./moz:/var/www/html/public
             - ./docker/nginx:/etc/nginx/conf.d
         networks:
             - app-network
